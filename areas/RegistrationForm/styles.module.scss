@@ -1,0 +1,14 @@
+@import '../../styles/vars.scss';
+
+.form
+{
+    grid-column: 1 / 6;
+    display: flex;
+    flex-direction: column;
+}
+.wrap_name_inputs
+{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px;
+}

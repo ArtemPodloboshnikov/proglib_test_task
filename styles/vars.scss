@@ -1,0 +1,21 @@
+$black_light: #141416;
+$blue: #378FF6;
+$blue_hover: #0B71EA;
+$white: #FCFCFC;
+$grey: #696974;
+$grey_light: #9F9FA9;
+$red: #FC5A5A;
+
+$font_size_input: 14px;
+
+$border-radius: 8px;
+
+%input-default-styles
+{
+    width: 100%;
+    height: fit-content;
+    border-radius: $border-radius;
+    border: 1px solid $grey_light;
+    color: $grey;
+    padding: 12px 8px;
+}
