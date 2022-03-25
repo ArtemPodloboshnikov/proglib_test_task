@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 
-enum InputTypes {
+export enum InputTypes {
 
     EMAIL = 'email',
     PASSWORD = 'password',
@@ -11,13 +11,10 @@ enum InputTypes {
     TEXT = 'text'
 }
 
-type Props = {
+export type InputProps = {
 
     name: string,
     placeholder: string,
     type: InputTypes,
     changeFunction: (e: string | ChangeEvent<any>) => void
 }
-
-export default Props;
-export {InputTypes}

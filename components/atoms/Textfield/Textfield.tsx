@@ -1,7 +1,7 @@
-import Props, { InputTypes } from "./Types";
+import { InputTypes, InputProps } from "./Types";
 import styles from './styles.module.scss';
 
-const Textfield = ({name, placeholder, type, changeFunction}:Props)=>{
+const Textfield = ({name, placeholder, type, changeFunction}:InputProps)=>{
 
     const Input = () => {
         return <input

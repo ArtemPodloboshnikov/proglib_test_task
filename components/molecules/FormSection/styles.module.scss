@@ -1,0 +1,17 @@
+@import '../../../styles/vars.scss';
+
+.area
+{
+    display: flex;
+    flex-direction: column;
+
+    h2 > span
+    {
+        color: $red !important;
+    }
+
+    .inputs_block
+    {
+        display: block;
+    }
+}

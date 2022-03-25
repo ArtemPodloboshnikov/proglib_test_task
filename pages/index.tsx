@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import RegistrationForm from '../areas/RegistrationForm'
+import RegistrationForm from '../components/organisms/RegistrationForm';
 import styles from '../styles/Home.module.scss'
 
 const Home: NextPage = () => {

@@ -29,7 +29,18 @@ const Placeholders = {
 const NamesInputs = {
 
     NAME: 'name',
-    SURNAME: 'surname'
+    SURNAME: 'surname',
+    FIELD_ACTIVITY: 'field_activity'
 }
 
-export {Titles, Placeholders, NamesInputs};
+const ImportantField = {
+
+    NAME: true,
+    FIELD_ACTIVITY: true,
+    PHONE_NUMBER: true,
+    DATE_BIRTH: true,
+    PROFILE_AVATAR: true,
+    PROFILE_ALBUM: true
+}
+
+export {Titles, Placeholders, NamesInputs, ImportantField};
