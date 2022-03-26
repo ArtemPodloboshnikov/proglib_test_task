@@ -1,21 +1,10 @@
-import {InputProps} from '../../atoms/Textfield/Types';
-import {TextareaProps} from '../../atoms/Textarea/Types';
-
-export enum AreaTypes {
-
-    TEXTFIELD = 'textfield',
-    TEXTAREA = 'textarea'
-}
-export type FieldProps = {
-
-    field: AreaTypes, 
-    props: InputProps|TextareaProps
-}
+import { ReactNode } from 'react';
 
 export type SectionProps = {
 
-    componentsProps: FieldProps[],
-    styleClass?: string,
-    isImportant: boolean,
-    title: string  
+    readonly children: ReactNode
+    readonly styleClass?: string,
+    readonly hint?: string, 
+    readonly isImportant: boolean,
+    readonly title: string
 }

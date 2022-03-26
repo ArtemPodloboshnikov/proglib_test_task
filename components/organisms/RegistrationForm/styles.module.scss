@@ -9,11 +9,52 @@
     & > form
     {
         width: 100%;
+    
+        input[type="submit"]
+        {
+            margin-top: 5%;
+        }
+        & > div:last-child
+        {
+            margin-top: 5%;
+        }
     }
+
 }
 .wrap_inputs
 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 10px;
+    grid-column-gap: $gap-column;
+}
+.wrap_phone, .wrap_date
+{
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+}
+.wrap_phone
+{
+    grid-template-rows: repeat(auto-fit, 1fr);
+    grid-row-gap: $gap-row;
+}
+.wrap_profile_avatar
+{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    column-gap: $gap-column;
+    
+    & > div:first-child
+    {
+        grid-row: 1 / 1;
+    }
+    & > div:nth-child(2)
+    {
+        grid-row: 2 / 2;
+    }
+    & > div:last-child
+    {
+        grid-column: 2 / 2;
+        grid-row: 1 / 3;
+    }
 }

@@ -1,20 +1,18 @@
 @import '../../../styles/vars.scss';
 
-.area
+.wrap_preview
 {
     display: flex;
     flex-direction: column;
-    & > h5 > span
-    {
-        color: $red !important;
-    }
-    & > span
+    p
     {
         color: $grey_light;
     }
-    
-    .inputs_block
+    .album
     {
-        display: block;
+        display: grid;
+        grid-column-gap: $gap-column;
+        grid-row-gap: $gap-row;
+        
     }
 }

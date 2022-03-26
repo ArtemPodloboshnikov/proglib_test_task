@@ -4,18 +4,35 @@ $blue_hover: #0B71EA;
 $white: #FCFCFC;
 $grey: #696974;
 $grey_light: #9F9FA9;
+$grey_white: #EEEEEF;
 $red: #FC5A5A;
 
 $font_size_input: 14px;
 
 $border-radius: 8px;
+$gap-column: 10px;
+$gap-row: 5px;
 
+@mixin border($side: '', $color: $grey_light) {
+    
+    border#{$side}: 1px solid $color;
+}
 %input-default-styles
 {
     width: 100%;
     height: fit-content;
     border-radius: $border-radius;
-    border: 1px solid $grey_light;
+    @include border();
     color: $grey;
     padding: 12px 8px;
+    resize: none;
+
+    &:hover:not(.error_input)
+    {
+        @include border('', $grey);
+    }
+    &:focus:not(.error_input)
+    {
+        @include border('', $blue);
+    }
 }

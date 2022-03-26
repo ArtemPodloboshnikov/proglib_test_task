@@ -1,0 +1,44 @@
+@import '../../../styles/vars.scss';
+
+.wrap_uploader
+{
+    display: flex;
+    flex-direction: column;
+
+    & > p
+    {
+        color: $grey_light;
+    }
+    .uploader 
+    {
+        display: flex;
+        gap: $gap-column;
+
+        .drag, .drop
+        {
+            @extend %input-default-styles;
+            display: flex;
+            justify-content: center;
+            gap: $gap-column;
+            color: $black_light;
+        }
+        .load
+        {
+            @include border('', $blue);
+            color: $blue_hover;
+        }
+        .cross
+        {
+            cursor: pointer;
+        }
+    }
+    .file
+    {
+    
+        visibility: hidden;
+        position: absolute;
+        z-index: -10;
+        width: 0.5px;
+        height: 0.5px;
+    }
+}

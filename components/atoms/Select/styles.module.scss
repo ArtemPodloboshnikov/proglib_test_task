@@ -1,0 +1,38 @@
+@import '../../../styles/vars.scss';
+
+.select
+{
+    display: flex;
+    flex-direction: column;
+    @extend %input-default-styles;
+
+    & input
+    {
+        border: none;
+    }
+
+    & > div:first-child, & > div:last-child
+    {
+        display: grid;
+    }
+    & > div:first-child
+    {
+        grid-template-columns: 3fr 1fr;
+
+        & img
+        {
+            min-width: 30% !important;
+        }
+    }
+    & > div:last-child
+    {
+        flex-direction: column;
+        display: none;
+        position: absolute;
+        margin-top: 45px;
+    }
+}
+.options_show
+{
+    display: flex !important;
+}

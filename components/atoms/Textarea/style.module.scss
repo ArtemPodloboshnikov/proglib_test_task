@@ -1,7 +1,0 @@
-@import '../../../styles/vars.scss';
-
-.textarea
-{
-    @extend %input-default-styles;
-    resize: none;
-}
