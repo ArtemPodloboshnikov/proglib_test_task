@@ -6,10 +6,11 @@ import FilesUploader from "../../atoms/FilesUploader";
 import Input from "../../molecules/Input";
 import DateInput from "../../atoms/DateInput";
 import Preview from "../../atoms/Preview";
+import { PreviewTypes } from "../../atoms/Preview/Types";
 import { InputTypes } from "../../molecules/Input/Types";
-import {Titles, Placeholders, NamesInputs, ImportantField, ID_AVATAR, Errors} from '../../../constants/RegistrationArea';
+import {Titles, Placeholders, NamesInputs, ImportantField, LIMIT_ALBUM, Errors} from '../../../constants/RegistrationArea';
 import styles from './styles.module.scss';
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 const RegistrationForm = ()=>{
 
@@ -37,7 +38,8 @@ const RegistrationForm = ()=>{
             }
     }
 
-    const [avatarPhoto, setAvatarPhoto] = useState<JSX.Element>()
+    const [avatarPhoto, setAvatarPhoto] = useState<ReactNode>();
+    const [albumPhotos, setAlbumPhotos] = useState<ReactNode>();
 
     return (
         <div
@@ -140,8 +142,8 @@ const RegistrationForm = ()=>{
                             error={getError(props, NamesInputs.PROFILE_AVATAR)}
                             />
                             <Preview
-                            id={ID_AVATAR}
                             placeholder={Placeholders.PREVIEW_AVATAR}
+                            type={PreviewTypes.PHOTO}
                             >
                                 {avatarPhoto}
                             </Preview>
@@ -154,8 +156,15 @@ const RegistrationForm = ()=>{
                             <FilesUploader
                             name={NamesInputs.PROFILE_ALBUM}
                             placeholder={Placeholders.LOAD_ALBUM}
-                            setImage={setAvatarPhoto}
+                            setImage={setAlbumPhotos}
+                            multiple={true}
+                            limit={LIMIT_ALBUM}
                             />
+                            <Preview
+                            type={PreviewTypes.ALBUM}
+                            >
+                                {albumPhotos}
+                            </Preview>
                         </FormSection>
                         <Input
                         name={NamesInputs.SEND_BUTTON}

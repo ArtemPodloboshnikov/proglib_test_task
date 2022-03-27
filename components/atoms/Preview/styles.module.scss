@@ -18,6 +18,14 @@
         display: grid;
         grid-column-gap: $gap-column;
         grid-row-gap: $gap-row;
+        grid-template-columns: repeat(5, 112px);
+        grid-template-rows: repeat(fit-height, 60px);
+
+        & img
+        {
+            border-radius: $border-radius-image;
+            width: 100%;
+        }
         
     }
 }

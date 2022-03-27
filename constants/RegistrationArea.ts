@@ -56,6 +56,6 @@ const Errors = {
     URL_UNCORECTED: 'URL имеет неверный формат'
 }
 
-const ID_AVATAR = 'preview_avatar';
+const LIMIT_ALBUM = '2-10';
 
-export {Titles, Placeholders, NamesInputs, ImportantField, ID_AVATAR, Errors};
+export {Titles, Placeholders, NamesInputs, ImportantField, LIMIT_ALBUM, Errors};

@@ -4,16 +4,19 @@ import { FileUploaderProps } from './Types';
 import Image from 'next/image';
 import CheckMark from '/public/icons/check_mark.svg';
 import ClosingCross from '/public/icons/closing_cross.svg';
-import { onDragStartLeaveWrap, onDropWrap } from './services';
-import { useState } from 'react';
+import { onDragStartLeaveWrap, onDropWrap, previewFile } from './services';
+import { ReactNode, useState } from 'react';
 
 
-const FilesUploader = ({styleClass, placeholder, name, multiple, setImage}:FileUploaderProps) => {
+const FilesUploader = ({styleClass, placeholder, name, multiple, limit="1-1", setImage}:FileUploaderProps) => {
     
     const [drag, setDrag] = useState(false);
     const [countFiles, setCountFiles] = useState(0);
     const id_file_input = `${name}_file_uploader`;
-    const onDrop = onDropWrap(name, setDrag, setCountFiles);
+    const range: string[] = limit.split('-');
+    const lower_range: number = Number(range[0]);
+    const upper_range: number = Number(range[1]);
+    const onDrop = onDropWrap(name, setDrag, setCountFiles, lower_range, upper_range);
     const onDragStartLeave = onDragStartLeaveWrap(setDrag);
 
     return (
@@ -21,26 +24,8 @@ const FilesUploader = ({styleClass, placeholder, name, multiple, setImage}:FileU
             <input 
             onChange={()=>{
 
-                const files = document.getElementsByName(name);
-                const fileUploader = files[0] as HTMLInputElement;
-                const fileList: FileList | null = fileUploader.files;
+                previewFile(setImage, setCountFiles, name, lower_range, upper_range);
                 
-                if (fileList !== null && fileList.length != 0)
-                {
-                    console.log(fileList);
-                    // console.log(idPreview);
-                    if (setImage !== undefined)
-                    {
-                        let reader = new FileReader()
-                        reader.readAsDataURL(fileList[0])
-                        reader.onload = () => {
-
-                            setImage(<img src={reader.result as string}/>)
-                        }
-
-                    }
-                    setCountFiles(fileList.length);
-                }
             }} 
             name={name} 
             className={styles.file}
@@ -99,6 +84,7 @@ const FilesUploader = ({styleClass, placeholder, name, multiple, setImage}:FileU
 
                         setDrag(false);
                         setCountFiles(0);
+                        setImage(null)
                     }}
                     />
                 :

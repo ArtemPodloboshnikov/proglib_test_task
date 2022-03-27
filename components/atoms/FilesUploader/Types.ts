@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, ReactNode, SetStateAction } from "react"
 
 export type FileUploaderProps = {
 
@@ -6,6 +6,6 @@ export type FileUploaderProps = {
     readonly name: string,
     readonly placeholder?: string,
     readonly multiple?: boolean,
-    readonly setImage: Dispatch<SetStateAction<JSX.Element|undefined>>
-
+    readonly setImage: Dispatch<SetStateAction<ReactNode|undefined>>,
+    readonly limit?: string
 }
