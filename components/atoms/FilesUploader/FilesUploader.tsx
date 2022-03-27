@@ -16,7 +16,7 @@ const FilesUploader = ({styleClass, placeholder, name, multiple, limit="1-1", se
     const range: string[] = limit.split('-');
     const lower_range: number = Number(range[0]);
     const upper_range: number = Number(range[1]);
-    const onDrop = onDropWrap(name, setDrag, setCountFiles, lower_range, upper_range);
+    const onDrop = onDropWrap(name, setImage, setDrag, setCountFiles, lower_range, upper_range);
     const onDragStartLeave = onDragStartLeaveWrap(setDrag);
 
     return (
@@ -58,8 +58,18 @@ const FilesUploader = ({styleClass, placeholder, name, multiple, limit="1-1", se
                         {(drag)?
                             Text.AFTER_BUTTON
                         : 
-                            (multiple)? 
-                            countFiles + Text.POSTFIX_FILE
+                            (multiple)?
+                                (countFiles)? 
+                                    <>
+                                        <Image
+                                        src={CheckMark}
+                                        objectFit="fill"
+                                        />
+                                        {countFiles + Text.POSTFIX_FILE}
+                                    </>
+                                    
+                                :
+                                    Text.BEFORE_BUTTON
                             : 
                             (countFiles)?
                                 <>

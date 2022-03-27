@@ -2,11 +2,11 @@ import { Dispatch, DragEvent, ReactNode, SetStateAction } from "react"
 
 function previewFile(setImage: Dispatch<SetStateAction<ReactNode|undefined>>, 
                     setCountFiles: Dispatch<SetStateAction<number>>, name: string,
-                    lower_range: number, upper_range: number)
+                    lower_range: number, upper_range: number, fileListProp?: FileList)
 {
     const files = document.getElementsByName(name);
     const fileUploader = files[0] as HTMLInputElement;
-    const fileList: FileList | null = fileUploader.files;
+    const fileList: FileList | null = fileListProp||fileUploader.files;
     let images_in_base64: ReactNode[] = [];
     
     
@@ -59,7 +59,8 @@ const onDragStartLeaveWrap = (setDrag: Dispatch<SetStateAction<boolean>>)=>{
 
     }
 }
-const onDropWrap = (name: string, setDrag: Dispatch<SetStateAction<boolean>>, 
+const onDropWrap = (name: string, setImage: Dispatch<SetStateAction<ReactNode|undefined>>,
+                    setDrag: Dispatch<SetStateAction<boolean>>, 
                     setCountFiles: Dispatch<SetStateAction<number>>, lower_range: number, upper_range: number)=>{
 
     return (e: DragEvent<HTMLDivElement|HTMLLabelElement>) =>{
@@ -74,14 +75,12 @@ const onDropWrap = (name: string, setDrag: Dispatch<SetStateAction<boolean>>,
             const fileUploader = fileInput[0] as HTMLInputElement;
             let  fileList: FileList | null = fileUploader.files;
             fileList = fileListItems(files);
-            // if (idImage !== undefined)
-            // {
-            //     previewFile(fileList, idImage)
-            // }
+ 
+            previewFile(setImage, setCountFiles, name, lower_range, upper_range, fileList)
             setDrag(false);
-            console.log((lower_range <= files.length && upper_range >= files.length))
-            if (lower_range <= files.length && upper_range >= files.length)
-                setCountFiles(files.length);
+            // console.log((lower_range <= files.length && upper_range >= files.length))
+            // if (lower_range <= files.length && upper_range >= files.length)
+            //     setCountFiles(files.length);
         }
     }
 
