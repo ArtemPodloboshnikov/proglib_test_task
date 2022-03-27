@@ -4,11 +4,11 @@ import { FileUploaderProps } from './Types';
 import Image from 'next/image';
 import CheckMark from '/public/icons/check_mark.svg';
 import ClosingCross from '/public/icons/closing_cross.svg';
-import { onDragStartLeaveWrap, onDropWrap, changeInputFile } from './services';
+import { onDragStartLeaveWrap, onDropWrap } from './services';
 import { useState } from 'react';
 
 
-const FilesUploader = ({styleClass, placeholder, name, multiple}:FileUploaderProps) => {
+const FilesUploader = ({styleClass, placeholder, name, multiple, setImage}:FileUploaderProps) => {
     
     const [drag, setDrag] = useState(false);
     const [countFiles, setCountFiles] = useState(0);
@@ -19,7 +19,29 @@ const FilesUploader = ({styleClass, placeholder, name, multiple}:FileUploaderPro
     return (
         <div className={[styles.wrap_uploader, styleClass].join(' ')}>
             <input 
-            onChange={()=>changeInputFile(name, setCountFiles)} 
+            onChange={()=>{
+
+                const files = document.getElementsByName(name);
+                const fileUploader = files[0] as HTMLInputElement;
+                const fileList: FileList | null = fileUploader.files;
+                
+                if (fileList !== null && fileList.length != 0)
+                {
+                    console.log(fileList);
+                    // console.log(idPreview);
+                    if (setImage !== undefined)
+                    {
+                        let reader = new FileReader()
+                        reader.readAsDataURL(fileList[0])
+                        reader.onload = () => {
+
+                            setImage(<img src={reader.result as string}/>)
+                        }
+
+                    }
+                    setCountFiles(fileList.length);
+                }
+            }} 
             name={name} 
             className={styles.file}
             id={`${id_file_input}`} 

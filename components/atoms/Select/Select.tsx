@@ -4,7 +4,7 @@ import Arrow from '/public/icons/arrow.svg';
 import Image from "next/image";
 import { useState, useRef } from "react";
 
-const Select = ({name, options, placeholder, styleClass}:SelectProps)=>{
+const Select = ({name, options, placeholder, changeFunction, styleClass}:SelectProps)=>{
 
     const [showOptions, setShowOptions] = useState<boolean>(false);
     const [value, setValue] = useState<string>('');
@@ -22,6 +22,7 @@ const Select = ({name, options, placeholder, styleClass}:SelectProps)=>{
                 onChange={(e)=>{
 
                     setValue(e.target.value);
+                    changeFunction(e.target.value, name);
                 }}
                 />
                 <Image
@@ -52,20 +53,26 @@ const Select = ({name, options, placeholder, styleClass}:SelectProps)=>{
             </div>
             <div
             className={(showOptions)?styles.options_show:''}
-            onClick={(e)=>{
-
-                //@ts-ignore
-                const option_text = e.target.innerHTML;
-                const arrow = document.getElementById(id_arrow);
-                console.log(arrow)
-                if (arrow !== null)
-                    arrow.style.transform = '';
-                setValue(option_text);
-                setShowOptions(false);
-
-            }}
+            
             >
-                {options.map(option=>(option!=value)?<span>{option}</span>:<></>)}
+                {options.map(option=>(option!=value)?
+                <span
+                onClick={(e)=>{
+
+                    //@ts-ignore
+                    const option_text = e.target.innerHTML;
+                    const arrow = document.getElementById(id_arrow);
+                    console.log(arrow)
+                    if (arrow !== null)
+                        arrow.style.transform = '';
+                    setValue(option_text);
+                    setShowOptions(false);
+                    changeFunction(option_text, name);
+    
+                }}
+                >
+                    {option}
+                </span>:<></>)}
             </div>
         </div>
     )

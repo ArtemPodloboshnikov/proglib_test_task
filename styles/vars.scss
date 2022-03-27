@@ -9,7 +9,8 @@ $red: #FC5A5A;
 
 $font_size_input: 14px;
 
-$border-radius: 8px;
+$border-radius-input: 8px;
+$border-radius-image: 12px;
 $gap-column: 10px;
 $gap-row: 5px;
 
@@ -21,7 +22,7 @@ $gap-row: 5px;
 {
     width: 100%;
     height: fit-content;
-    border-radius: $border-radius;
+    border-radius: $border-radius-input;
     @include border();
     color: $grey;
     padding: 12px 8px;

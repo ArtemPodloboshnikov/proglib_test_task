@@ -17,9 +17,6 @@ const Placeholders = {
     INPUT_SURNAME: 'Фамилия',
     TEXTAREA_ACTIVITY: 'Ваш текст',
     INPUT_PHONE: '(×××) ×××-××-××',
-    INPUT_DATE: 'Дата',
-    INPUT_MONTH: 'Месяц',
-    INPUT_YEAR: 'Год',
     LOAD_AVATAR_PROFILE: 'Загрузите изображение:',
     PREVIEW_AVATAR: 'Превью профиля',
     URL_AVATAR_PROFILE: 'Или укажите адрес изображения:',
@@ -59,4 +56,6 @@ const Errors = {
     URL_UNCORECTED: 'URL имеет неверный формат'
 }
 
-export {Titles, Placeholders, NamesInputs, ImportantField, Errors};
+const ID_AVATAR = 'preview_avatar';
+
+export {Titles, Placeholders, NamesInputs, ImportantField, ID_AVATAR, Errors};

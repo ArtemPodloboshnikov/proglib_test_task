@@ -3,21 +3,22 @@ import Image from "next/image";
 import styles from './styles.module.scss';
 import DefaultPhoto from '/public/images/preview_default.jpg';
 
-const Preview = ({imagesSrc, placeholder=''}:PreviewProps)=>{
+const Preview = ({children, id, placeholder=''}:PreviewProps)=>{
     
     return (
         <div className={styles.wrap_preview}>
             <p>{placeholder}</p>
+
             {
-                (!Array.isArray(imagesSrc))?
+                children 
+            
+                || 
                     <Image 
-                    src={imagesSrc||DefaultPhoto} 
+                    src={DefaultPhoto} 
                     objectFit="fill"
+                    id={id}
+                    className={styles.default_image}
                     />
-                :    
-                    <div className={styles.album}>
-                        {imagesSrc.map(src=><Image src={src} objectFit="fill" />)}
-                    </div>
             }
         </div>
     )

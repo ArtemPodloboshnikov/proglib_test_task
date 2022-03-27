@@ -1,0 +1,63 @@
+@import '../../../styles/vars.scss';
+
+.wrap_date
+{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-column-gap: $gap-column;
+    .date
+    {
+        @extend %input-default-styles;
+        padding: 0px;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr;
+    
+        & > input
+        {
+            border: none;
+        }
+        & > input:nth-child(1)
+        {
+            @include border('-right');
+            border-radius: $border-radius-input 0 0 $border-radius-input;
+    
+        }
+        & > input:nth-child(3)
+        {
+            @include border('-left');
+            border-radius: 0 $border-radius-input $border-radius-input 0;
+        }
+        & > .select
+        {
+            padding: 0px;
+            border: 0px;
+            height: auto;
+            border-radius: $border-radius-input 0 0 $border-radius-input;
+            border: none !important;
+
+        }
+       
+       
+    
+    }
+    .icon
+    {
+        border-radius: $border-radius-input;
+        width: 42px;
+        height: 42px;
+        align-self: center;
+        justify-self: end;
+        & img
+        {
+            min-width: 60% !important;
+        }
+    }
+    .icon_simple
+    {
+        background-color: $grey_white;
+    }
+    .icon_hover
+    {
+        background-color: $blue;
+    }
+}

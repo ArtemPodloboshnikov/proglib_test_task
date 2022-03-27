@@ -1,16 +1,17 @@
-import { Dispatch, DragEvent, SetStateAction, useState } from "react"
+import { Dispatch, DragEvent, SetStateAction } from "react"
 
-function previewFile(file: FileList, id_img: string)
-{
-    
-    let reader = new FileReader()
-    reader.onload = () => {
-        let img: any = document.getElementById(id_img)
-        img.src = reader.result
-    }
+// function previewFile(file: FileList, setImage: Dispatch<SetStateAction<JSX.Element>>)
+// {
+//     const preview: HTMLImageElement = document.getElementById(id_img) as HTMLImageElement;
+//     let reader = new FileReader()
+//     reader.readAsDataURL(file[0])
+//     reader.onload = () => {
 
-    reader.readAsDataURL(file[0])
-}
+//         preview.src = reader.result as string
+//         setImage()
+//     }
+
+// }
 
 function fileListItems(files: FileList)
 {
@@ -51,23 +52,23 @@ const onDropWrap = (name: string, setDrag: Dispatch<SetStateAction<boolean>>, se
 
 }
 
-const changeInputFile = (name: string, setCountFiles: Dispatch<SetStateAction<number>>) => {
+// const changeInputFile = (name: string, setCountFiles: Dispatch<SetStateAction<number>>, setImage: Dispatch<SetStateAction<JSX.Element>>) => {
 
-    const files = document.getElementsByName(name);
-    const fileUploader = files[0] as HTMLInputElement;
-    const fileList: FileList | null = fileUploader.files;
+//     const files = document.getElementsByName(name);
+//     const fileUploader = files[0] as HTMLInputElement;
+//     const fileList: FileList | null = fileUploader.files;
     
-    if (fileList !== null && fileList.length != 0)
-    {
-        console.log(fileList);
-        // console.log(idImage);
-        // if (idImage !== undefined)
-        // {
-        //     previewFile(fileList, idImage)
+//     if (fileList !== null && fileList.length != 0)
+//     {
+//         console.log(fileList);
+//         console.log(idPreview);
+//         if (setImage !== undefined)
+//         {
+//             previewFile(fileList, setImage)
 
-        // }
-        setCountFiles(fileList.length);
-    }
-}
+//         }
+//         setCountFiles(fileList.length);
+//     }
+// }
 
-export {onDragStartLeaveWrap, onDropWrap, changeInputFile};
+export {onDragStartLeaveWrap, onDropWrap};

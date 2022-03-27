@@ -2,19 +2,21 @@ import { Formik, FormikProps } from "formik";
 import * as Yup from 'yup';
 
 import FormSection from "../../molecules/FormSection";
+import FilesUploader from "../../atoms/FilesUploader";
 import Input from "../../molecules/Input";
+import DateInput from "../../atoms/DateInput";
 import Preview from "../../atoms/Preview";
 import { InputTypes } from "../../molecules/Input/Types";
-import {Titles, Placeholders, NamesInputs, ImportantField, Errors} from '../../../constants/RegistrationArea';
+import {Titles, Placeholders, NamesInputs, ImportantField, ID_AVATAR, Errors} from '../../../constants/RegistrationArea';
 import styles from './styles.module.scss';
+import { useState } from "react";
 
 const RegistrationForm = ()=>{
 
     const SignupSchema = Yup.object().shape({
 
         [NamesInputs.PHONE]: Yup.string()
-        .matches(/^\+[7] [\(]\d{3}\) \d{3}\-\d{2}\-\d{2}$/, Errors.PHONE_UNCORECTED)
-        .required("Phone number is required"),
+        .matches(/^\+[7] [\(]\d{3}\) \d{3}\-\d{2}\-\d{2}$/, Errors.PHONE_UNCORECTED),
         [NamesInputs.PROFILE_AVATAR]: Yup.string()
         .matches(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/, Errors.URL_UNCORECTED)
     })
@@ -35,6 +37,8 @@ const RegistrationForm = ()=>{
             }
     }
 
+    const [avatarPhoto, setAvatarPhoto] = useState<JSX.Element>()
+
     return (
         <div
         className={styles.wrap_form}
@@ -43,7 +47,7 @@ const RegistrationForm = ()=>{
             <Formik
             initialValues={{
                 [NamesInputs.NAME]:'',
-                [NamesInputs.DATE_BIRTH]: '',
+                [NamesInputs.DATE_BIRTH]: '--',
                 [NamesInputs.FIELD_ACTIVITY]: '',
                 [NamesInputs.PHONE]: '',
                 [NamesInputs.PROFILE_ALBUM]: '',
@@ -110,11 +114,10 @@ const RegistrationForm = ()=>{
                         styleClass={styles.wrap_date}
                         isImportant={ImportantField.DATE_BIRTH}
                         >
-                            <Input
+                            <DateInput
                             name={NamesInputs.DATE_BIRTH}
-                            placeholder={Placeholders.INPUT_DATE}
-                            type={InputTypes.DATE}
-                            changeFunction={props.handleChange}
+                            changeFunction={props.setFieldValue}
+                            dataDate={props.values[NamesInputs.DATE_BIRTH]}
                             />
                         </FormSection>
                         <FormSection
@@ -123,11 +126,10 @@ const RegistrationForm = ()=>{
                         isImportant={ImportantField.PROFILE_AVATAR}
                         hint={Placeholders.AVATAR_TERMS}
                         >
-                            <Input
+                            <FilesUploader
                             name={NamesInputs.PROFILE_AVATAR}
                             placeholder={Placeholders.LOAD_AVATAR_PROFILE}
-                            type={InputTypes.FILE}
-                            changeFunction={props.handleChange}
+                            setImage={setAvatarPhoto}
                             />
                             <Input
                             name={NamesInputs.PROFILE_AVATAR}
@@ -138,20 +140,21 @@ const RegistrationForm = ()=>{
                             error={getError(props, NamesInputs.PROFILE_AVATAR)}
                             />
                             <Preview
+                            id={ID_AVATAR}
                             placeholder={Placeholders.PREVIEW_AVATAR}
-                            imagesSrc={''}
-                            />
+                            >
+                                {avatarPhoto}
+                            </Preview>
                         </FormSection>
                         <FormSection
                         title={Titles.PROFILE_ALBUM}
                         isImportant={ImportantField.PROFILE_ALBUM}
                         hint={Placeholders.ALBUM_TERMS}
                         >
-                            <Input
+                            <FilesUploader
                             name={NamesInputs.PROFILE_ALBUM}
                             placeholder={Placeholders.LOAD_ALBUM}
-                            type={InputTypes.FILE}
-                            changeFunction={props.handleChange}
+                            setImage={setAvatarPhoto}
                             />
                         </FormSection>
                         <Input

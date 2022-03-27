@@ -1,53 +1,5 @@
 @import '../../../styles/vars.scss';
 
-.wrap_date
-{
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-column-gap: $gap-column;
-    .date
-    {
-        @extend %input-default-styles;
-        padding: 0px;
-        display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
-    
-        & > input
-        {
-            border: none;
-        }
-        & > input:nth-child(1)
-        {
-            @include border('-right');
-            border-radius: $border-radius 0 0 $border-radius;
-    
-        }
-        & > .select
-        {
-            padding: 0px;
-            border: 0px;
-            height: auto;
-            @include border('-right');
-            border-radius: $border-radius 0 0 $border-radius;
-        }
-       
-       
-    
-    }
-    .icon
-    {
-        border-radius: $border-radius;
-        background-color: $grey_white;
-        width: 42px;
-        height: 42px;
-        align-self: center;
-        justify-self: end;
-        & img
-        {
-            min-width: 60% !important;
-        }
-    }
-}
 .wrap_url
 {
     p

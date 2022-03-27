@@ -1,5 +1,6 @@
 export type PreviewProps = {
 
-    readonly imagesSrc: string|string[],
+    readonly children: JSX.Element|undefined,
     readonly placeholder?: string,
+    readonly id: string,
 }
