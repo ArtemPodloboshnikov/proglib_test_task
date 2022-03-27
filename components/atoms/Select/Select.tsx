@@ -2,12 +2,12 @@ import { SelectProps } from "./Types";
 import styles from './styles.module.scss';
 import Arrow from '/public/icons/arrow.svg';
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { memo, useState } from "react";
 
-const Select = ({name, options, placeholder, changeFunction, styleClass}:SelectProps)=>{
+const Select = ({name, options, placeholder, changeFunction, defaultValue='', styleClass}:SelectProps)=>{
 
     const [showOptions, setShowOptions] = useState<boolean>(false);
-    const [value, setValue] = useState<string>('');
+    const [value, setValue] = useState<string>(defaultValue);
     const id_arrow = `${name}_arrow`;
 
     return (
@@ -18,7 +18,7 @@ const Select = ({name, options, placeholder, changeFunction, styleClass}:SelectP
                 <input
                 name={name}
                 placeholder={placeholder}
-                value={value}
+                defaultValue={value}
                 onChange={(e)=>{
 
                     setValue(e.target.value);
@@ -78,4 +78,4 @@ const Select = ({name, options, placeholder, changeFunction, styleClass}:SelectP
     )
 }
 
-export default Select;
+export default memo(Select);

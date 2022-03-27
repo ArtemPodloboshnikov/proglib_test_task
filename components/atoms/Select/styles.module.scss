@@ -29,7 +29,17 @@
         flex-direction: column;
         display: none;
         position: absolute;
-        margin-top: 45px;
+        margin-top: 42px;
+        row-gap: $gap-row;
+        padding: 30px;
+        border-radius: $border-radius-input;
+        background-color: $white;
+        text-align: center;
+
+        & > span
+        {
+            cursor: pointer;
+        }
     }
 }
 .options_show

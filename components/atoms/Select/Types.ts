@@ -4,5 +4,6 @@ export type SelectProps = {
     readonly options: string[],
     readonly placeholder: string,
     readonly styleClass?: string,
-    readonly changeFunction: (text: string, name: string)=>void
+    readonly changeFunction: (text: string, name: string)=>void,
+    readonly defaultValue?: string
 }

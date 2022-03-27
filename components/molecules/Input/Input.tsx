@@ -1,4 +1,4 @@
-import { InputTypes, InputProps, EventFunctionType, SetFunctionType } from "./Types";
+import { InputTypes, InputProps } from "./Types";
 import styles from './styles.module.scss';
 import FilesUploader from "../../atoms/FilesUploader";
 
@@ -9,7 +9,7 @@ const Input = ({name, placeholder, type, changeFunction, error, subtitle='', sty
         name: name,
         placeholder: placeholder,
         type: type,
-        onChange: changeFunction as EventFunctionType,
+        onChange: changeFunction,
         className: [styleClass, error?.styleClass].join(' ')
     }
 

@@ -7,5 +7,7 @@ export type FileUploaderProps = {
     readonly placeholder?: string,
     readonly multiple?: boolean,
     readonly setImage: Dispatch<SetStateAction<ReactNode|undefined>>,
-    readonly limit?: string
+    readonly limit?: string,
+    readonly acceptableFileExtensions: string[],
+    readonly sizeFile: number
 }

@@ -5,8 +5,10 @@ import CalendarGrey from '/public/icons/calender_grey.svg';
 import CalendarWhite from '/public/icons/calender_white.svg';
 
 import styles from './styles.module.scss';
+import DatePicker from "./DatePicker";
 import { DateInputProps } from "./Types";
-import { MONTHS } from "../../../constants/Select";
+import { getKeyByValue } from "../../../services/getKeyByValue";
+import { MONTHS } from "../../../constants/Date";
 import Select from "../Select";
 
 const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
@@ -15,9 +17,10 @@ const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
     const date_name = `${name}_date`;
     const month_name = `${name}_month`;
     const year_name = `${name}_year`;
+    let full_date_arr: string[] = dataDate.split('-');
+    console.log(getKeyByValue<number>(MONTHS, Number(full_date_arr[1])))
     const setDate = (current_text: string, current_name: string)=>{
         
-        let full_date_arr: string[] = dataDate.split('-');
         const names_index = {
 
             [date_name]: 2,
@@ -44,6 +47,7 @@ const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
                 min={1}
                 max={31}
                 onChange={(e)=>setDate(e.target.value, e.target.name)}
+                defaultValue={full_date_arr[2]||''}
                 />
                 <Select
                 styleClass={styles.select}
@@ -51,6 +55,7 @@ const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
                 placeholder="Месяц"
                 name={month_name}
                 changeFunction={setDate}
+                defaultValue={getKeyByValue<number>(MONTHS, Number(full_date_arr[1]))}
                 />
                 <input
                 placeholder="Год"
@@ -59,27 +64,34 @@ const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
                 min={2000}
                 max={2024}
                 onChange={(e)=>setDate(e.target.value, e.target.name)}
+                defaultValue={full_date_arr[0]}
                 />
                 
             </label>
             <div 
             className={[styles.icon, clickIcon.classBack].join(' ')}
+            onClick={()=>{
+
+                    
+                (clickIcon.icon == CalendarGrey)?
+                setClickIcon({icon: CalendarWhite, classBack: styles.icon_action})
+                :
+                setClickIcon({icon: CalendarGrey, classBack: styles.icon_simple})
+            }}
             >
                 <Image
                 src={clickIcon.icon}
                 width={12}
                 height={12}
                 layout="responsive"
-                onClick={()=>{
-
-                    
-                    (clickIcon.icon == CalendarGrey)?
-                    setClickIcon({icon: CalendarWhite, classBack: styles.icon_hover})
-                    :
-                    setClickIcon({icon: CalendarGrey, classBack: styles.icon_simple})
-                }}
                 />
             </div>
+                <DatePicker
+                isShow={(CalendarWhite == clickIcon.icon)}
+                changeFunction={(text: string)=>changeFunction(name, text)}
+                setClose={()=>{setClickIcon({icon: CalendarGrey, classBack: styles.icon_simple})}}
+                currentDate={dataDate}
+                />
         </div>
     )
 }

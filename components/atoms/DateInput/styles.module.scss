@@ -47,6 +47,8 @@
         height: 42px;
         align-self: center;
         justify-self: end;
+        cursor: pointer;
+
         & img
         {
             min-width: 60% !important;
@@ -56,8 +58,78 @@
     {
         background-color: $grey_white;
     }
-    .icon_hover
+    .icon_action
     {
         background-color: $blue;
+    }
+}
+
+.date_picker
+{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 9px;
+    margin-top: 62px;
+    margin-left: 155px;
+    width: 292px;
+    height: 301px;
+    background-color: $white;
+    border-radius: $border-radius-image;
+    z-index: 10;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 0px 1px rgba(0, 0, 0, 0.4);
+    
+    & > .date_title
+    {
+        display: grid;
+        grid-auto-flow: column;
+        width: 100%;
+        justify-items: stretch;
+
+        & h5
+        {
+            font-family: 'Rubik-SemiBold' !important;
+            text-align: center;
+        }
+        & img
+        {
+            min-height: 40% !important;
+            cursor: pointer;
+        }
+    }
+    & > .date_body
+    {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+        justify-content: stretch;
+        align-items: center;
+        text-align: center;
+
+        & span
+        {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            align-content: center;
+            display: grid;
+
+        }
+        & > .week
+        {
+            color: $grey_light;
+        }
+        & > .current_date
+        {
+            margin: 0 auto;
+            border-radius: 32px;
+            
+            color: $white;
+            background-color: $blue;
+        }
+        & > .new_month
+        {
+            color: $grey_light;
+        }
     }
 }

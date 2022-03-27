@@ -8,7 +8,7 @@ import { onDragStartLeaveWrap, onDropWrap, previewFile } from './services';
 import { ReactNode, useState } from 'react';
 
 
-const FilesUploader = ({styleClass, placeholder, name, multiple, limit="1-1", setImage}:FileUploaderProps) => {
+const FilesUploader = ({styleClass, placeholder, name, multiple, limit="1-1", setImage, acceptableFileExtensions, sizeFile}:FileUploaderProps) => {
     
     const [drag, setDrag] = useState(false);
     const [countFiles, setCountFiles] = useState(0);
@@ -16,7 +16,7 @@ const FilesUploader = ({styleClass, placeholder, name, multiple, limit="1-1", se
     const range: string[] = limit.split('-');
     const lower_range: number = Number(range[0]);
     const upper_range: number = Number(range[1]);
-    const onDrop = onDropWrap(name, setImage, setDrag, setCountFiles, lower_range, upper_range);
+    const onDrop = onDropWrap({name, setImage, setDrag, setCountFiles, lower_range, upper_range, acceptableFileExtensions, sizeFile});
     const onDragStartLeave = onDragStartLeaveWrap(setDrag);
 
     return (
@@ -24,7 +24,7 @@ const FilesUploader = ({styleClass, placeholder, name, multiple, limit="1-1", se
             <input 
             onChange={()=>{
 
-                previewFile(setImage, setCountFiles, name, lower_range, upper_range);
+                previewFile({ setImage, setCountFiles, name, lower_range, upper_range, acceptableFileExtensions, sizeFile});
                 
             }} 
             name={name} 

@@ -56,6 +56,11 @@ const Errors = {
     URL_UNCORECTED: 'URL имеет неверный формат'
 }
 
-const LIMIT_ALBUM = '2-10';
+const LimitersFileUploader = {
 
-export {Titles, Placeholders, NamesInputs, ImportantField, LIMIT_ALBUM, Errors};
+    SIZE: 7, //MB
+    EXTENSIONS: ['png', 'jpg', 'gif'],
+    LIMIT_ALBUM: '2-10'
+}
+
+export {Titles, Placeholders, NamesInputs, ImportantField, LimitersFileUploader, Errors};

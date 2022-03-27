@@ -8,7 +8,7 @@ import DateInput from "../../atoms/DateInput";
 import Preview from "../../atoms/Preview";
 import { PreviewTypes } from "../../atoms/Preview/Types";
 import { InputTypes } from "../../molecules/Input/Types";
-import {Titles, Placeholders, NamesInputs, ImportantField, LIMIT_ALBUM, Errors} from '../../../constants/RegistrationArea';
+import {Titles, Placeholders, NamesInputs, ImportantField, LimitersFileUploader, Errors} from '../../../constants/RegistrationArea';
 import styles from './styles.module.scss';
 import { ReactNode, useState } from "react";
 
@@ -40,6 +40,7 @@ const RegistrationForm = ()=>{
 
     const [avatarPhoto, setAvatarPhoto] = useState<ReactNode>();
     const [albumPhotos, setAlbumPhotos] = useState<ReactNode>();
+    const date = new Date();
 
     return (
         <div
@@ -49,7 +50,7 @@ const RegistrationForm = ()=>{
             <Formik
             initialValues={{
                 [NamesInputs.NAME]:'',
-                [NamesInputs.DATE_BIRTH]: '--',
+                [NamesInputs.DATE_BIRTH]: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
                 [NamesInputs.FIELD_ACTIVITY]: '',
                 [NamesInputs.PHONE]: '',
                 [NamesInputs.PROFILE_ALBUM]: '',
@@ -132,6 +133,8 @@ const RegistrationForm = ()=>{
                             name={NamesInputs.PROFILE_AVATAR}
                             placeholder={Placeholders.LOAD_AVATAR_PROFILE}
                             setImage={setAvatarPhoto}
+                            sizeFile={LimitersFileUploader.SIZE}
+                            acceptableFileExtensions={LimitersFileUploader.EXTENSIONS}
                             />
                             <Input
                             name={NamesInputs.PROFILE_AVATAR}
@@ -158,7 +161,9 @@ const RegistrationForm = ()=>{
                             placeholder={Placeholders.LOAD_ALBUM}
                             setImage={setAlbumPhotos}
                             multiple={true}
-                            limit={LIMIT_ALBUM}
+                            limit={LimitersFileUploader.LIMIT_ALBUM}
+                            sizeFile={LimitersFileUploader.SIZE}
+                            acceptableFileExtensions={LimitersFileUploader.EXTENSIONS}
                             />
                             <Preview
                             type={PreviewTypes.ALBUM}

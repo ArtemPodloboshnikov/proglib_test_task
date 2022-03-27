@@ -1,8 +1,58 @@
 import { Dispatch, DragEvent, ReactNode, SetStateAction } from "react"
 
-function previewFile(setImage: Dispatch<SetStateAction<ReactNode|undefined>>, 
-                    setCountFiles: Dispatch<SetStateAction<number>>, name: string,
-                    lower_range: number, upper_range: number, fileListProp?: FileList)
+type PreviewFileProps = { 
+    setImage: Dispatch<SetStateAction<ReactNode | undefined>>, 
+    setCountFiles: Dispatch<SetStateAction<number>>, 
+    name: string,
+    lower_range: number,
+    upper_range: number,
+    acceptableFileExtensions: string[], 
+    fileListProp?: FileList,
+    sizeFile: number
+}
+
+const checkPhoto = (fileList: FileList, sizeFile: number, acceptableFileExtensions: string[])=>{
+
+    let isProblemCheck = false;
+    
+    for (let i = 0; fileList?.length; i++)
+    {
+        let ext: string = '';
+        const MB_divider = 1048576;
+        console.log(fileList)
+        const file_size = fileList[i].size / MB_divider;
+        if (file_size > sizeFile)
+        {
+            isProblemCheck = true;
+            console.log(file_size, "MB");
+            break;
+        }
+
+        const parts_file_name = fileList[i].name.split('.');
+
+        if (parts_file_name.length > 1) 
+        {
+            ext = String(parts_file_name.pop());
+            if (!acceptableFileExtensions.includes(ext))
+            {
+                isProblemCheck = true;
+                console.log("Extensions:", acceptableFileExtensions.join(', '));
+
+                break;
+            }
+            
+        }
+        else
+        {
+            isProblemCheck = true;
+            break;
+        }
+    }
+    
+    return isProblemCheck;
+}
+
+function previewFile({ setImage, setCountFiles, name, lower_range, upper_range, acceptableFileExtensions, fileListProp, sizeFile}: PreviewFileProps)
 {
     const files = document.getElementsByName(name);
     const fileUploader = files[0] as HTMLInputElement;
@@ -10,9 +60,14 @@ function previewFile(setImage: Dispatch<SetStateAction<ReactNode|undefined>>,
     let images_in_base64: ReactNode[] = [];
     
     
-    
-    if (fileList !== null && fileList.length != 0)
+    if (fileList !== null && fileList !== undefined && fileList.length != 0)
     {
+        if (checkPhoto(fileList, sizeFile, acceptableFileExtensions))
+        {
+            alert("Не то расширение или размер слишком большой")
+            return;
+        }
+
         const ReadFiles = (index: number, files: FileList)=>{
             if (index >= files.length) 
             {
@@ -59,9 +114,7 @@ const onDragStartLeaveWrap = (setDrag: Dispatch<SetStateAction<boolean>>)=>{
 
     }
 }
-const onDropWrap = (name: string, setImage: Dispatch<SetStateAction<ReactNode|undefined>>,
-                    setDrag: Dispatch<SetStateAction<boolean>>, 
-                    setCountFiles: Dispatch<SetStateAction<number>>, lower_range: number, upper_range: number)=>{
+const onDropWrap = ({setDrag, setImage, setCountFiles, name, upper_range, lower_range, acceptableFileExtensions, sizeFile}:(PreviewFileProps&{setDrag: Dispatch<SetStateAction<boolean>>}))=>{
 
     return (e: DragEvent<HTMLDivElement|HTMLLabelElement>) =>{
 
@@ -76,11 +129,9 @@ const onDropWrap = (name: string, setImage: Dispatch<SetStateAction<ReactNode|un
             let  fileList: FileList | null = fileUploader.files;
             fileList = fileListItems(files);
  
-            previewFile(setImage, setCountFiles, name, lower_range, upper_range, fileList)
+            previewFile({ setImage, setCountFiles, name, lower_range, upper_range, acceptableFileExtensions, sizeFile, fileListProp: fileList })
             setDrag(false);
-            // console.log((lower_range <= files.length && upper_range >= files.length))
-            // if (lower_range <= files.length && upper_range >= files.length)
-            //     setCountFiles(files.length);
+
         }
     }
 

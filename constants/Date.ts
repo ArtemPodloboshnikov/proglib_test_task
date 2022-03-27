@@ -17,4 +17,6 @@ const MONTHS:{
 
 };
 
-export {MONTHS};
+const WEEK_DAYS = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
+
+export {MONTHS, WEEK_DAYS};
