@@ -120,7 +120,7 @@ const RegistrationForm = ()=>{
                             <DateInput
                             name={NamesInputs.DATE_BIRTH}
                             changeFunction={props.setFieldValue}
-                            dataDate={props.values[NamesInputs.DATE_BIRTH]}
+                            dataString={props.values[NamesInputs.DATE_BIRTH]}
                             />
                         </FormSection>
                         <FormSection

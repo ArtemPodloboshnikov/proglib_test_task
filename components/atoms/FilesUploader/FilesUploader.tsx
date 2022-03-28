@@ -4,7 +4,7 @@ import { FileUploaderProps } from './Types';
 import Image from 'next/image';
 import CheckMark from '/public/icons/check_mark.svg';
 import ClosingCross from '/public/icons/closing_cross.svg';
-import { onDragStartLeaveWrap, onDropWrap, previewFile } from './services';
+import { onDragStartLeaveWrap, onDropWrap, previewFile } from './handlers';
 import { ReactNode, useState } from 'react';
 
 

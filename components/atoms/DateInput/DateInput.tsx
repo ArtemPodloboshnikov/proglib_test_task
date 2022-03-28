@@ -7,30 +7,26 @@ import CalendarWhite from '/public/icons/calender_white.svg';
 import styles from './styles.module.scss';
 import DatePicker from "./DatePicker";
 import { DateInputProps } from "./Types";
-import { getKeyByValue } from "../../../services/getKeyByValue";
+import { setDate, getFullDateArray, getMonthByIndex } from "./handlers";
 import { MONTHS } from "../../../constants/Date";
 import Select from "../Select";
 
-const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
+const DateInput = ({changeFunction, name, dataString}:DateInputProps)=>{
 
     const [clickIcon, setClickIcon] = useState({icon: CalendarGrey, classBack: styles.icon_simple});
+    const name_date_input = name;
     const date_name = `${name}_date`;
     const month_name = `${name}_month`;
     const year_name = `${name}_year`;
-    let full_date_arr: string[] = dataDate.split('-');
-    console.log(getKeyByValue<number>(MONTHS, Number(full_date_arr[1])))
-    const setDate = (current_text: string, current_name: string)=>{
-        
-        const names_index = {
-
-            [date_name]: 2,
-            [month_name]: 1,
-            [year_name]: 0
-        }
-
-        full_date_arr[names_index[current_name]] = (MONTHS[current_text])?String(MONTHS[current_text]):current_text;
-        changeFunction(name, full_date_arr.join('-'));
-    }
+    const full_date_arr: string[] = getFullDateArray(dataString)
+    const handlerDate = (text: string, name: string)=>setDate(text, name, full_date_arr, date_name, month_name, year_name, name_date_input, changeFunction);
+    
+    const [month, setMonth] = useState<string>(getMonthByIndex(Number(full_date_arr[1]), true));
+    const [day, setDay] = useState<string>(full_date_arr[2]);
+    const [year, setYear] = useState<string>(full_date_arr[0]);
+    
+    const days = new Date(Number(full_date_arr[0]), Number(full_date_arr[1]), 0).getDate();
+    
     return (
 
         <div
@@ -45,17 +41,19 @@ const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
                 name={date_name}
                 type="number"
                 min={1}
-                max={31}
-                onChange={(e)=>setDate(e.target.value, e.target.name)}
+                max={days}
+                onChange={(e)=>{handlerDate(e.target.value, e.target.name); setDay(e.target.value)}}
                 defaultValue={full_date_arr[2]||''}
+                value={day}
                 />
                 <Select
                 styleClass={styles.select}
                 options={Object.keys(MONTHS)}
                 placeholder="Месяц"
                 name={month_name}
-                changeFunction={setDate}
-                defaultValue={getKeyByValue<number>(MONTHS, Number(full_date_arr[1]))}
+                changeFunction={handlerDate}
+                value={month}
+                setValue={setMonth}
                 />
                 <input
                 placeholder="Год"
@@ -63,8 +61,9 @@ const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
                 type="number"
                 min={2000}
                 max={2024}
-                onChange={(e)=>setDate(e.target.value, e.target.name)}
+                onChange={(e)=>{handlerDate(e.target.value, e.target.name); setYear(e.target.value)}}
                 defaultValue={full_date_arr[0]}
+                value={year}
                 />
                 
             </label>
@@ -90,7 +89,10 @@ const DateInput = ({changeFunction, name, dataDate}:DateInputProps)=>{
                 isShow={(CalendarWhite == clickIcon.icon)}
                 changeFunction={(text: string)=>changeFunction(name, text)}
                 setClose={()=>{setClickIcon({icon: CalendarGrey, classBack: styles.icon_simple})}}
-                currentDate={dataDate}
+                currentDate={dataString}
+                setDay={setDay}
+                setMonth={setMonth}
+                setYear={setYear}
                 />
         </div>
     )

@@ -2,28 +2,36 @@ import { SelectProps } from "./Types";
 import styles from './styles.module.scss';
 import Arrow from '/public/icons/arrow.svg';
 import Image from "next/image";
-import { memo, useState } from "react";
+import { useState } from "react";
 
-const Select = ({name, options, placeholder, changeFunction, defaultValue='', styleClass}:SelectProps)=>{
+const Select = ({name, options, placeholder, changeFunction, value, setValue, styleClass}:SelectProps)=>{
 
     const [showOptions, setShowOptions] = useState<boolean>(false);
-    const [value, setValue] = useState<string>(defaultValue);
+    let localeValue = value;
+    let setLocaleValue = setValue;
+    if (!(localeValue && setLocaleValue))
+    {
+        [localeValue, setLocaleValue] = useState<string>(value||'');
+    }
     const id_arrow = `${name}_arrow`;
 
     return (
         <div 
         className={[styles.select, styleClass].join(' ')}
         >
-            <div>
+            <div
+            className={styles.input}
+            >
                 <input
                 name={name}
                 placeholder={placeholder}
-                defaultValue={value}
+                value={localeValue}
                 onChange={(e)=>{
-
-                    setValue(e.target.value);
+                    if (setLocaleValue)
+                        setLocaleValue(e.target.value);
                     changeFunction(e.target.value, name);
                 }}
+                disabled={true}
                 />
                 <Image
                 id={id_arrow}
@@ -51,12 +59,13 @@ const Select = ({name, options, placeholder, changeFunction, defaultValue='', st
                 }}
                 />
             </div>
+            {(showOptions)?
             <div
-            className={(showOptions)?styles.options_show:''}
-            
+            className={styles.list}
             >
-                {options.map(option=>(option!=value)?
+                {options.map((option, index)=>(option!=localeValue)?
                 <span
+                key={`${option}_${index}`}
                 onClick={(e)=>{
 
                     //@ts-ignore
@@ -65,17 +74,24 @@ const Select = ({name, options, placeholder, changeFunction, defaultValue='', st
                     console.log(arrow)
                     if (arrow !== null)
                         arrow.style.transform = '';
-                    setValue(option_text);
-                    setShowOptions(false);
+                    if (setLocaleValue)
+                        setLocaleValue(option_text);
+                    console.log(option_text)
                     changeFunction(option_text, name);
+                    setShowOptions(false);
     
                 }}
                 >
                     {option}
-                </span>:<></>)}
+                </span>
+                :
+                <></>
+                )}
             </div>
+            :
+            <></>}
         </div>
     )
 }
 
-export default memo(Select);
+export default Select;

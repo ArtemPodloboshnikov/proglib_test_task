@@ -11,11 +11,11 @@
         border: none !important;
     }
 
-    & > div:first-child, & > div:last-child
+    & > .input, & > .list
     {
         display: grid;
     }
-    & > div:first-child
+    & > .input
     {
         grid-template-columns: 3fr 1fr;
 
@@ -24,10 +24,10 @@
             min-width: 30% !important;
         }
     }
-    & > div:last-child
+    & > .list
     {
         flex-direction: column;
-        display: none;
+        display: flex;
         position: absolute;
         margin-top: 42px;
         row-gap: $gap-row;
@@ -41,8 +41,4 @@
             cursor: pointer;
         }
     }
-}
-.options_show
-{
-    display: flex !important;
 }

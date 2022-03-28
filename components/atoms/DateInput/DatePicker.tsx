@@ -1,29 +1,24 @@
 import styles from './styles.module.scss';
 import { MONTHS, WEEK_DAYS } from '../../../constants/Date';
-import { getKeyByValue } from '../../../services/getKeyByValue';
+import { getPickerTitle, getMonthByIndex } from './handlers';
 import ArrowLeft from '/public/icons/arrow_left.svg';
 import ArrowRight from '/public/icons/arrow_right.svg';
 import { DatePickerProps } from './Types';
 import Image from 'next/image';
 import { useState } from 'react';
 
-const DatePicker = ({isShow, changeFunction, setClose, currentDate}:DatePickerProps)=>{
+const DatePicker = ({isShow, changeFunction, setClose, setMonth, setDay, setYear, currentDate}:DatePickerProps)=>{
 
   
+    
     const [shiftDate, setShiftDate] = useState<number>(0);
     // const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const current_date = new Date(currentDate);
-    const [title, setTitle] = useState();
-    const shift = 35;
+    const offset = 35;
     const days = [];
-    let start_days = new Date();
-    let end_days = new Date();
-    const getTitle = ()=>{
-
-  
-        return getKeyByValue<number>(MONTHS, start_days.getMonth()+1) + ' ' + Number(start_days.getFullYear());
-
-    }
+    let start_days = new Date(currentDate);
+    let end_days = new Date(currentDate);
+    
     start_days.setDate(1 + shiftDate);
     end_days.setDate(36 + shiftDate);
 
@@ -39,16 +34,22 @@ const DatePicker = ({isShow, changeFunction, setClose, currentDate}:DatePickerPr
 
         let dateStyleClass = (current_month != next_month || current_year != next_year)?styles.new_month:'';
         dateStyleClass = (current_day == next_day && current_month == next_month && current_year == next_year)?styles.current_date:dateStyleClass;
+        const id_span = `${next_year}-${next_month+1}-${next_day}`;
         days.push(
             <span 
             className={dateStyleClass}
-            id={`${start_days.getFullYear()}-${start_days.getMonth()+1}-${start_days.getDate()}`}
+            id={id_span}
+            key={id_span}
             onClick={(e)=>{
                 
                 //@ts-ignore
-                const new_date_str = e.target.id;
-                console.log(new_date_str)
+                const new_date_str: string = e.target.id;
+                console.log(new_date_str);
+                setMonth(getMonthByIndex(next_month));
+                setDay(String(next_day));
+                setYear(String(next_year));
                 changeFunction(new_date_str);
+                setShiftDate(0);
                 setClose();
             }}
             >
@@ -57,7 +58,6 @@ const DatePicker = ({isShow, changeFunction, setClose, currentDate}:DatePickerPr
         );
         start_days.setDate(++next_day)
     }
-
     if (isShow)
     {
 
@@ -74,25 +74,25 @@ const DatePicker = ({isShow, changeFunction, setClose, currentDate}:DatePickerPr
                     objectFit="fill"
                     onClick={()=>{
 
-                        setShiftDate(shiftDate-shift);
+                        setShiftDate(shiftDate-offset);
                     }}
                     />
                     <h5>
-                        {getTitle()}
+                        {getPickerTitle(start_days)}
                     </h5>
                     <Image
                     src={ArrowRight}
                     objectFit="fill"
                     onClick={()=>{
 
-                        setShiftDate(shiftDate+shift);
+                        setShiftDate(shiftDate+offset);
                     }}
                     />
                 </div>
                 <div
                 className={styles.date_body}
                 >
-                    {WEEK_DAYS.map(day=><span className={styles.week}>{day}</span>)}
+                    {WEEK_DAYS.map((day, index)=><span key={`${day}_${index}`} className={styles.week}>{day}</span>)}
                     {days}
                 </div>
             </div>

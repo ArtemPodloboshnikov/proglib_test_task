@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react"
+
 export type SelectProps = {
 
     readonly name: string,
@@ -5,5 +7,6 @@ export type SelectProps = {
     readonly placeholder: string,
     readonly styleClass?: string,
     readonly changeFunction: (text: string, name: string)=>void,
-    readonly defaultValue?: string
+    readonly setValue?: Dispatch<SetStateAction<string>>,
+    readonly value?: string
 }
