@@ -15,7 +15,10 @@ const getMonthByIndex = (date: Date|number, pure=false)=>{
     }
     else
     {
-        return getKeyByValue<number>(MONTHS, (typeof date == "number")?(date + 1):(date.getMonth() + 1));
+        const res: string|undefined = getKeyByValue<number>(MONTHS, (typeof date == "number")?(date + 1):(date.getMonth() + 1));
+        if (!res)
+            return 'Февраль';
+        return res;
     }
 }
 const getPickerTitle = (date: Date)=>{

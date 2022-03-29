@@ -3,6 +3,7 @@ import { MONTHS, WEEK_DAYS } from '../../../constants/Date';
 import { getPickerTitle, getMonthByIndex } from './handlers';
 import ArrowLeft from '/public/icons/arrow_left.svg';
 import ArrowRight from '/public/icons/arrow_right.svg';
+import { getFullDate } from '../../../services/getFullDate';
 import { DatePickerProps } from './Types';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -34,7 +35,7 @@ const DatePicker = ({isShow, changeFunction, setClose, setMonth, setDay, setYear
 
         let dateStyleClass = (current_month != next_month || current_year != next_year)?styles.new_month:'';
         dateStyleClass = (current_day == next_day && current_month == next_month && current_year == next_year)?styles.current_date:dateStyleClass;
-        const id_span = `${next_year}-${next_month+1}-${next_day}`;
+        const id_span = getFullDate(start_days);
         days.push(
             <span 
             className={dateStyleClass}
@@ -79,7 +80,7 @@ const DatePicker = ({isShow, changeFunction, setClose, setMonth, setDay, setYear
                     }}
                     />
                     <h5>
-                        {getPickerTitle(start_days)}
+                        {getMonthByIndex(current_date) + ' ' + start_days.getFullYear()}
                     </h5>
                     <Image
                     src={ArrowRight}
