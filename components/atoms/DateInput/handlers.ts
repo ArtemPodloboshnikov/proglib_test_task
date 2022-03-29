@@ -4,7 +4,7 @@ import { changeFunctionType } from "./Types";
 
 const getMonthByIndex = (date: Date|number, pure=false)=>{
     if (date instanceof Date)
-    console.log(date.getMonth())
+    console.log('month', date.getMonth())
     if (pure)
     {
 

@@ -65,7 +65,7 @@ const Select = ({name, options, placeholder, changeFunction, value, setValue, st
             >
                 {options.map((option, index)=>(option!=localeValue)?
                 <span
-                key={`${option}_${index}`}
+                key={`${name}_${option}_${index}`}
                 onClick={(e)=>{
 
                     //@ts-ignore

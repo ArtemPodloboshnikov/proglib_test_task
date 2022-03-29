@@ -43,7 +43,6 @@ const DateInput = ({changeFunction, name, dataString}:DateInputProps)=>{
                 min={1}
                 max={days}
                 onChange={(e)=>{handlerDate(e.target.value, e.target.name); setDay(e.target.value)}}
-                defaultValue={full_date_arr[2]||''}
                 value={day}
                 />
                 <Select
@@ -62,7 +61,6 @@ const DateInput = ({changeFunction, name, dataString}:DateInputProps)=>{
                 min={2000}
                 max={2024}
                 onChange={(e)=>{handlerDate(e.target.value, e.target.name); setYear(e.target.value)}}
-                defaultValue={full_date_arr[0]}
                 value={year}
                 />
                 

@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent, Dispatch, ReactNode, SetStateAction } from "react";
 
 export enum InputTypes {
 
@@ -20,5 +20,7 @@ export type InputProps = {
     readonly multiple?: boolean,
     readonly subtitle?: string, 
     readonly styleClass?: string,
-    readonly error?: {styleClass: string, message: ReactNode}
+    readonly setFunction?: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
+    readonly setImage?: Dispatch<SetStateAction<string[]>>,
+    readonly error?: {styleClass: string, message: ReactNode},
 }

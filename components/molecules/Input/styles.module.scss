@@ -17,3 +17,26 @@
         background-color: $blue_hover;
     }
 }
+.phone
+{
+    display: flex;
+    @extend %input-default-styles;
+    column-gap: 5px;
+
+    & > span
+    {
+        color: $blue;
+        font-size: $font_size_input;
+    }
+
+    & > input
+    {
+        border: none;
+        padding: 0;
+
+        &:focus, &:hover
+        {
+            border: none;
+        }
+    }
+}

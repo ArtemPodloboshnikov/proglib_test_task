@@ -8,7 +8,7 @@ export enum PreviewTypes {
 
 export type PreviewProps = {
 
-    readonly children: ReactNode|undefined,
+    readonly imagesBase64: string[],
     readonly placeholder?: string,
-    readonly type: PreviewTypes
+    readonly type?: PreviewTypes
 }

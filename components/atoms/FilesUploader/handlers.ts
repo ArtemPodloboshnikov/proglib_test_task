@@ -1,21 +1,18 @@
 import { Dispatch, DragEvent, ReactNode, SetStateAction } from "react"
+import {FileUploaderProps} from './Types';
 
-type PreviewFileProps = { 
-    setImage: Dispatch<SetStateAction<ReactNode | undefined>>, 
-    setCountFiles: Dispatch<SetStateAction<number>>, 
-    name: string,
-    lower_range: number,
-    upper_range: number,
-    acceptableFileExtensions: string[], 
-    fileListProp?: FileList,
-    sizeFile: number
+type PreviewFileProps = Omit<FileUploaderProps, "placeholder"|"limit"|"multiple"> & { 
+    readonly setCountFiles: Dispatch<SetStateAction<number>>, 
+    readonly lower_range: number,
+    readonly upper_range: number,
+    readonly fileListProp?: FileList,
 }
 
 const checkPhoto = (fileList: FileList, sizeFile: number, acceptableFileExtensions: string[])=>{
 
     let isProblemCheck = false;
     
-    for (let i = 0; fileList?.length; i++)
+    for (let i = 0; i < fileList?.length; i++)
     {
         let ext: string = '';
         const MB_divider = 1048576;
@@ -52,12 +49,12 @@ const checkPhoto = (fileList: FileList, sizeFile: number, acceptableFileExtensio
     return isProblemCheck;
 }
 
-function previewFile({ setImage, setCountFiles, name, lower_range, upper_range, acceptableFileExtensions, fileListProp, sizeFile}: PreviewFileProps)
+function previewFile({ setImage, setCountFiles, name, lower_range, upper_range, acceptableFileExtensions, fileListProp, sizeFile, setFileList}: PreviewFileProps)
 {
     const files = document.getElementsByName(name);
     const fileUploader = files[0] as HTMLInputElement;
     const fileList: FileList | null = fileListProp||fileUploader.files;
-    let images_in_base64: ReactNode[] = [];
+    let files_in_base64: string[] = [];
     
     
     if (fileList !== null && fileList !== undefined && fileList.length != 0)
@@ -71,12 +68,13 @@ function previewFile({ setImage, setCountFiles, name, lower_range, upper_range, 
         const ReadFiles = (index: number, files: FileList)=>{
             if (index >= files.length) 
             {
-                console.log(index);
+             
                 if (lower_range <= index && upper_range >= index)
                 {
                     
-                    setImage(images_in_base64);
+                    setImage(files_in_base64);
                     setCountFiles(fileList.length);
+                    setFileList(name, fileList)
 
                 }
                
@@ -84,12 +82,12 @@ function previewFile({ setImage, setCountFiles, name, lower_range, upper_range, 
             }
             let reader = new FileReader()
             reader.onload = () => {
-                images_in_base64.push(<img src={reader.result as string}/>);
+                files_in_base64.push(reader.result as string);
                 ReadFiles(++index, files)
             }
             reader.readAsDataURL(new Blob([files[index]]))
         }
-        console.log(fileList);
+        
         if (setImage !== undefined)
         {
             ReadFiles(0, fileList)
@@ -114,7 +112,7 @@ const onDragStartLeaveWrap = (setDrag: Dispatch<SetStateAction<boolean>>)=>{
 
     }
 }
-const onDropWrap = ({setDrag, setImage, setCountFiles, name, upper_range, lower_range, acceptableFileExtensions, sizeFile}:(PreviewFileProps&{setDrag: Dispatch<SetStateAction<boolean>>}))=>{
+const onDropWrap = ({setDrag, setImage, setCountFiles, name, upper_range, lower_range, acceptableFileExtensions, sizeFile, setFileList}:(PreviewFileProps&{setDrag: Dispatch<SetStateAction<boolean>>}))=>{
 
     return (e: DragEvent<HTMLDivElement|HTMLLabelElement>) =>{
 
@@ -129,7 +127,7 @@ const onDropWrap = ({setDrag, setImage, setCountFiles, name, upper_range, lower_
             let  fileList: FileList | null = fileUploader.files;
             fileList = fileListItems(files);
  
-            previewFile({ setImage, setCountFiles, name, lower_range, upper_range, acceptableFileExtensions, sizeFile, fileListProp: fileList })
+            previewFile({ setImage, setCountFiles, name, lower_range, upper_range, acceptableFileExtensions, sizeFile, setFileList, fileListProp: fileList })
             setDrag(false);
 
         }

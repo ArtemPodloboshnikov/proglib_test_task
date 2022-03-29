@@ -8,6 +8,7 @@ import DateInput from "../../atoms/DateInput";
 import Preview from "../../atoms/Preview";
 import { PreviewTypes } from "../../atoms/Preview/Types";
 import { InputTypes } from "../../molecules/Input/Types";
+import { getFullDate } from "../../../services/getFullDate";
 import {Titles, Placeholders, NamesInputs, ImportantField, LimitersFileUploader, Errors} from '../../../constants/RegistrationArea';
 import styles from './styles.module.scss';
 import { ReactNode, useState } from "react";
@@ -17,9 +18,9 @@ const RegistrationForm = ()=>{
     const SignupSchema = Yup.object().shape({
 
         [NamesInputs.PHONE]: Yup.string()
-        .matches(/^\+[7] [\(]\d{3}\) \d{3}\-\d{2}\-\d{2}$/, Errors.PHONE_UNCORECTED),
-        [NamesInputs.PROFILE_AVATAR]: Yup.string()
-        .matches(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/, Errors.URL_UNCORECTED)
+        .matches(/^[\(]\d{3}\) \d{3}\-\d{2}\-\d{2}$/, Errors.PHONE_UNCORECTED),
+        // [NamesInputs.PROFILE_AVATAR]: Yup.string()
+        // .matches(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/, Errors.URL_UNCORECTED)
     })
 
     const getError = (formikProps: FormikProps<{[x: string]: string;}>, field_name: string)=>{
@@ -37,27 +38,28 @@ const RegistrationForm = ()=>{
                 styleClass: ''
             }
     }
-
-    const [avatarPhoto, setAvatarPhoto] = useState<ReactNode>();
-    const [albumPhotos, setAlbumPhotos] = useState<ReactNode>();
+    
+    const [avatarPhoto, setAvatarPhoto] = useState<string[]>(['']);
+    const [albumPhotos, setAlbumPhotos] = useState<string[]>(['']);
     const date = new Date();
 
+    const initialValues: { [key: string]: any} = {
+        [NamesInputs.NAME]:'',
+        [NamesInputs.DATE_BIRTH]: getFullDate(date),
+        [NamesInputs.FIELD_ACTIVITY]: '',
+        [NamesInputs.PHONE]: '',
+        [NamesInputs.PROFILE_ALBUM]: '',
+        [NamesInputs.PROFILE_AVATAR]: '',
+        [NamesInputs.SEND_BUTTON]: '',
+        [NamesInputs.SURNAME]: ''
+    }
     return (
         <div
         className={styles.wrap_form}
         >
             <h3>{Titles.HEADLINE}</h3>
             <Formik
-            initialValues={{
-                [NamesInputs.NAME]:'',
-                [NamesInputs.DATE_BIRTH]: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
-                [NamesInputs.FIELD_ACTIVITY]: '',
-                [NamesInputs.PHONE]: '',
-                [NamesInputs.PROFILE_ALBUM]: '',
-                [NamesInputs.PROFILE_AVATAR]: '',
-                [NamesInputs.SEND_BUTTON]: '',
-                [NamesInputs.SURNAME]: ''
-            }}
+            initialValues={initialValues}
             validationSchema={SignupSchema}
             onSubmit={(values)=>{
 
@@ -65,7 +67,7 @@ const RegistrationForm = ()=>{
             }}
             >
                 {props=>(
-
+                    
                     <form
                     onSubmit={props.handleSubmit}
                     >
@@ -120,7 +122,7 @@ const RegistrationForm = ()=>{
                             <DateInput
                             name={NamesInputs.DATE_BIRTH}
                             changeFunction={props.setFieldValue}
-                            dataString={props.values[NamesInputs.DATE_BIRTH]}
+                            dataString={String(props.values[NamesInputs.DATE_BIRTH])}
                             />
                         </FormSection>
                         <FormSection
@@ -135,6 +137,7 @@ const RegistrationForm = ()=>{
                             setImage={setAvatarPhoto}
                             sizeFile={LimitersFileUploader.SIZE}
                             acceptableFileExtensions={LimitersFileUploader.EXTENSIONS}
+                            setFileList={props.setFieldValue}
                             />
                             <Input
                             name={NamesInputs.PROFILE_AVATAR}
@@ -143,13 +146,14 @@ const RegistrationForm = ()=>{
                             changeFunction={props.handleChange}
                             type={InputTypes.URL}
                             error={getError(props, NamesInputs.PROFILE_AVATAR)}
+                            setFunction={props.setFieldValue}
+                            setImage={setAvatarPhoto}
                             />
                             <Preview
                             placeholder={Placeholders.PREVIEW_AVATAR}
                             type={PreviewTypes.PHOTO}
-                            >
-                                {avatarPhoto}
-                            </Preview>
+                            imagesBase64={avatarPhoto}
+                            />
                         </FormSection>
                         <FormSection
                         title={Titles.PROFILE_ALBUM}
@@ -164,12 +168,12 @@ const RegistrationForm = ()=>{
                             limit={LimitersFileUploader.LIMIT_ALBUM}
                             sizeFile={LimitersFileUploader.SIZE}
                             acceptableFileExtensions={LimitersFileUploader.EXTENSIONS}
+                            setFileList={props.setFieldValue}
                             />
                             <Preview
                             type={PreviewTypes.ALBUM}
-                            >
-                                {albumPhotos}
-                            </Preview>
+                            imagesBase64={albumPhotos}
+                            />
                         </FormSection>
                         <Input
                         name={NamesInputs.SEND_BUTTON}

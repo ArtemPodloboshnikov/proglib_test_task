@@ -44,10 +44,11 @@ const DatePicker = ({isShow, changeFunction, setClose, setMonth, setDay, setYear
                 
                 //@ts-ignore
                 const new_date_str: string = e.target.id;
-                console.log(new_date_str);
-                setMonth(getMonthByIndex(next_month));
-                setDay(String(next_day));
-                setYear(String(next_year));
+                const new_date_arr: string[] = new_date_str.split('-');
+                console.log(next_day);
+                setDay(new_date_arr[2]);
+                setMonth(getMonthByIndex(Number(new_date_arr[1])));
+                setYear(new_date_arr[0]);
                 changeFunction(new_date_str);
                 setShiftDate(0);
                 setClose();
